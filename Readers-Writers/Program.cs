@@ -10,11 +10,13 @@ namespace Readers_Writers
         private static void Main()
         {
             Supervisor sup = new Supervisor();
-            sup.process();
+            sup.Process();
             
             Thread.Sleep(5000);
-           Console.WriteLine("Final value on sup is {0}", sup.Readers);
-           
+           Console.WriteLine("Final value of readers on sup is {0}", sup.Readers);
+            Console.WriteLine("{0} writers was spawned", sup.writersSpawned);
+            Console.WriteLine("{0} readers was spawned", sup.readersSpawned);
+          
            Console.ReadKey();
         }
 
