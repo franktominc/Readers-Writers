@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO.IsolatedStorage;
 using System.Threading;
 
 namespace Readers_Writers

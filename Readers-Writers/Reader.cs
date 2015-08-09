@@ -18,7 +18,7 @@ namespace Readers_Writers
         public void Run()
         {
             var file = File.ReadAllText(_path);
-
+            Console.WriteLine("Reader Thread Started");
             Console.WriteLine("Thread {0} have read the entire File",Thread.CurrentThread.ManagedThreadId);
             s.SubmitReader();
         }

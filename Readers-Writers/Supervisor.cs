@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Security.Cryptography;
 using System.Threading;
 
 namespace Readers_Writers {
@@ -28,7 +27,7 @@ namespace Readers_Writers {
         public Supervisor() {
             _cq = new ConcurrentQueue<string>();
             int i = 0;
-            while (i++ < 100) {
+            while (i++ < 1000) {
                 int k = random.Next(0, 0x7ff);
                 if(k%2 == 0)
                     _cq.Enqueue("Read");
@@ -44,10 +43,12 @@ namespace Readers_Writers {
         }
 
         public void SubmitReader() {
+            Console.WriteLine("Reader Thread {0} finished", Thread.CurrentThread.ManagedThreadId);
             Interlocked.Decrement(ref readers);
         }
 
         public void SubmitWriter() {
+            Console.WriteLine("Writer Thread {0} finished", Thread.CurrentThread.ManagedThreadId);
             isWriting = false;
         }
 
@@ -65,7 +66,7 @@ namespace Readers_Writers {
                     case "Read":
                         while (isWriting) {
                             Console.WriteLine("Queue process thread is waiting for writer to finish");
-                            Thread.SpinWait(2);
+                            Thread.SpinWait(1000000);
                         }
                         Interlocked.Increment(ref readers);
                         Interlocked.Increment(ref readersSpawned);
@@ -74,9 +75,7 @@ namespace Readers_Writers {
                     case "Write":
                         while (readers != 0 || isWriting) {
                             Console.WriteLine("Queue process thread is waiting for readers or writer to finish");
-                            Thread.SpinWait(2);
-                            
-                            
+                            Thread.SpinWait(1000000);
                         }
                         Interlocked.Increment(ref writersSpawned);
                         Write();
