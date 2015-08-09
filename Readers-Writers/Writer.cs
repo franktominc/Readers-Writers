@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 
 namespace Readers_Writers {
-    class Writer {
+    internal class Writer {
         private string path;
         private Supervisor supervisor;
 
@@ -16,7 +16,7 @@ namespace Readers_Writers {
             Console.WriteLine("Writer Thread {0} Started", Thread.CurrentThread.ManagedThreadId);
             string k = "Thread " + Thread.CurrentThread.ManagedThreadId + "  writed to the file\n";
             Console.WriteLine("Thread {0} wrote to the file", Thread.CurrentThread.ManagedThreadId);
-            File.AppendAllText(path,k );
+            File.AppendAllText(path, k);
             supervisor.SubmitWriter();
         }
     }

@@ -5,11 +5,11 @@ using System.Threading;
 namespace Readers_Writers {
     public class Supervisor {
         private readonly ConcurrentQueue<string> _cq;
-       public int writersSpawned = 0;
+        public int writersSpawned = 0;
         public int readersSpawned = 0;
 
         private string Path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) +
-            @"\Teste2.txt";
+                              @"\Teste2.txt";
 
         private volatile bool isWriting = false;
 
@@ -23,13 +23,12 @@ namespace Readers_Writers {
         }
 
 
-
         public Supervisor() {
             _cq = new ConcurrentQueue<string>();
             int i = 0;
             while (i++ < 1000) {
                 int k = random.Next(0, 0x7ff);
-                if(k%2 == 0)
+                if (k%2 == 0)
                     _cq.Enqueue("Read");
                 else {
                     _cq.Enqueue("Write");
@@ -52,7 +51,7 @@ namespace Readers_Writers {
             isWriting = false;
         }
 
-    public void Read() {
+        public void Read() {
             var r = new Reader(this, Path);
             var x = new Thread(r.Run);
             x.Start();
@@ -80,17 +79,15 @@ namespace Readers_Writers {
                         Interlocked.Increment(ref writersSpawned);
                         Write();
                         break;
-
                 }
             }
         }
 
         public void Write() {
             isWriting = true;
-            Writer writer =  new Writer(Path, this);
+            Writer writer = new Writer(Path, this);
             Thread writeThread = new Thread(writer.Write);
             writeThread.Start();
         }
-
     }
 }
